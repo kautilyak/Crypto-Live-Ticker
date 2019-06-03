@@ -17,6 +17,8 @@
 
 <code> node ticker.js [TICKER] [INTERVAL] </code>
 
+Example : <code> node ticker.js TRXUSDT </code> OR <code> node ticker.js EOSINR 7000 </code>
+
 # Breakdown
 
 <b> [TICKER] </b> can be any symbol with USDT or INR base. For Example - BTCUSDT , XRPUSDT, BTCINR, EOSINR, TRXUSDT ...
