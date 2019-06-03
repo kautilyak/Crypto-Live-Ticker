@@ -1,0 +1,23 @@
+{
+  "name": "colors",
+  "version": "0.0.2",
+  "description": "adds colors to the console text",
+  "main": "crypto.js",
+  "dependencies": {
+    "colors": "^1.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kautilyak/crypto-price-quoter.git"
+  },
+  "author": "Kautilya Kondragunta",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kautilyak/crypto-price-quoter/issues"
+  },
+  "homepage": "https://github.com/kautilyak/crypto-price-quoter#readme"
+}
