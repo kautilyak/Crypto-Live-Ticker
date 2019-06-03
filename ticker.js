@@ -2,7 +2,7 @@ const https = require('https');
 const colors = require('colors');
 
 try{
-	var ticker = process.argv.slice(2)[0];
+	var ticker = process.argv.slice(2)[0].toLowerCase();
 	var frequency = process.argv.slice(2)[1];
 	const url = "https://api.wazirx.com/api/v2/tickers";
 	var prev=0;
