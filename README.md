@@ -21,7 +21,7 @@ Example : <code> node ticker.js TRXUSDT </code> OR <code> node ticker.js TRXINR 
 
 # Breakdown
 
-<b> [TICKER] </b> can be any symbol with USDT or INR base. For Example - BTCUSDT , XRPUSDT, BTCINR, EOSINR, TRXUSDT ...
+<b> [TICKER] </b> can be any symbol with USDT, BTC or INR base. For Example - BTCUSDT , XRPUSDT, BTCINR, EOSINR, TRXUSDT ...
 
 <b>[INTERVAL] </b>- It is optional. If set <i>(in ms) </i>updates the ticker in that interval. Default is 4000 , and is auto-set when nothing is mentioned.
 
