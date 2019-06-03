@@ -9,6 +9,12 @@
 
 # Usage
 
+- Install all the required dependencies by running the following code:
+
+<code> npm install </code>
+
+- And the commandline to use the program is:
+
 <code> node ticker.js [TICKER] [INTERVAL] </code>
 
 # Breakdown
