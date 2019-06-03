@@ -17,7 +17,7 @@
 
 <code> node ticker.js [TICKER] [INTERVAL] </code>
 
-Example : <code> node ticker.js TRXUSDT </code> OR <code> node ticker.js EOSINR 7000 </code>
+Example : <code> node ticker.js TRXUSDT </code> OR <code> node ticker.js TRXINR 7000 </code> OR <code> node ticker.js TRXBTC</code>
 
 # Breakdown
 
