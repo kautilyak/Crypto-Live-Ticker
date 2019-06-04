@@ -1,13 +1,40 @@
 const https = require('https');
 const colors = require('colors');
+const nodemailer = require('nodemailer');
+var argv = require('minimist')(process.argv.slice(2));
+
 
 try{
-	var ticker = process.argv.slice(2)[0].toLowerCase();
-	var frequency = process.argv.slice(2)[1];            
+	var ticker = argv['s'].toLowerCase();
+	var frequency = argv['t']; 
+	var email = argv['e'];
+	var notify = argv['n'];
+	var help = argv['h'];
 	const url = "https://api.wazirx.com/api/v2/tickers";   // API URL
 	var prev=0;
 	var totalChange;
 	var now = new Date();
+	var thresh_check;
+	
+	
+	//Nodemailer
+
+	var transporter = nodemailer.createTransport({
+	  service: 'gmail',
+	  auth: {
+		user: 'thespikybro@gmail.com',
+		pass: 'ipcxobaivndjfnld'
+	  }
+	});
+
+	var mailOptions = {
+	  from: 'Crypto Ticker',
+	  to: email,
+	  subject: `${ticker.toUpperCase()} Price Alert!`,
+	  text: `The price has reached ${notify}. To view more please check exchange.`
+	};
+
+	
 	
 	//Function to find the percentage change in price.
 	
@@ -49,14 +76,57 @@ try{
 					var open = body[ticker]['open'];
 					totalChange = ((last_buy-open)/open)*100;
 					totalChange = totalChange.toFixed(2);
-						
-						if(totalChange > 0) {
-							console.log(`Daily change : ${colors.green(totalChange) + "%"}`);
-						} else if (totalChange < 0){
-							console.log(`Daily change : ${colors.red(totalChange) + "%"}`);
+					
+					
+					// MAIL CHECK
+					if(thresh_check) {
+						if(thresh_check > 0) {
+							if(notify <= last_buy){
+								
+								//Send mail
+								transporter.sendMail(mailOptions, function(error, info){
+								  if (error) {
+									console.log(error);
+								  } else {
+									console.log(colors.green('Email sent: ' + info.response));
+								  }
+								});
+								
+							}
 						} else {
-							console.log("Daily Change : " + totalChange);
+							if(notify >= last_buy) {
+								
+								//Send mail
+								transporter.sendMail(mailOptions, function(error, info){
+								  if (error) {
+									console.log(error);
+								  } else {
+									console.log(colors.green('Email sent: ' + info.response));
+								  }
+								});
+								
+							}
 						}
+					}
+					
+					
+					if(notify > last_buy) {
+						thresh_check = 1;
+					} else {
+						thresh_check = -1;
+					}
+					
+					
+					// DAILY CHANGE 
+					
+					
+					if(totalChange > 0) {
+						console.log(`Daily change : ${colors.green(totalChange) + "%"}`);
+					} else if (totalChange < 0){
+						console.log(`Daily change : ${colors.red(totalChange) + "%"}`);
+					} else {
+						console.log("Daily Change : " + totalChange);
+					}
 					
 					
 					if(prev != last_buy) {

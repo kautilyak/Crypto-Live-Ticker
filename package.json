@@ -4,7 +4,9 @@
   "description": "adds colors to the console text",
   "main": "crypto.js",
   "dependencies": {
-    "colors": "^1.3.0"
+    "colors": "^1.3.0",
+    "minimist": "^1.2.0",
+    "nodemailer": "^6.2.1"
   },
   "devDependencies": {},
   "scripts": {
