@@ -15,15 +15,15 @@
 
 - And the commandline to use the program is:
 
-<code> node ticker.js [TICKER] [INTERVAL] </code>
+<code> node ticker.js -s [SYMBOL] -t [INTERVAL] -e [EMAIL] -n [THRESHOLD] </code>
 
-Example : <code> node ticker.js TRXUSDT </code> OR <code> node ticker.js EOSINR 7000 </code>
 
 # Breakdown
 
-<b> [TICKER] </b> can be any symbol with USDT or INR base. For Example - BTCUSDT , XRPUSDT, BTCINR, EOSINR, TRXUSDT ...
-
-<b>[INTERVAL] </b>- It is optional. If set <i>(in ms) </i>updates the ticker in that interval. Default is 4000 , and is auto-set when nothing is mentioned.
+- s : Symbol to track , Example - trxusdt , trxbtc, trxinr etc..
+- t : Set the frequency between refresh data (optional)
+- e : Email to notify when threshold price hits (optional)
+- n : Threshold price (optional)
 
 # NOTES
 
