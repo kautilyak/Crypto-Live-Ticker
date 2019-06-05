@@ -27,7 +27,7 @@ try{
 	});
 
 	var mailOptions = {
-	  from: 'Crypto Ticker',
+	  from: 'Crypto Ticker <ticker@nodemailer.com>',
 	  to: email,
 	  subject: `${ticker.toUpperCase()} Price Alert!`,
 	  text: `The price has reached ${notify}. To view more please check exchange.`
@@ -87,6 +87,7 @@ try{
 									console.log(error);
 								  } else {
 									console.log(colors.green('Email sent: ' + info.response));
+									notify = null;
 								  }
 								});
 								
@@ -100,6 +101,7 @@ try{
 									console.log(error);
 								  } else {
 									console.log(colors.green('Email sent: ' + info.response));
+									notify = null;
 								  }
 								});
 								
@@ -146,6 +148,8 @@ try{
 					console.log(colors.red(error.message));
 				}
 			});
+		}).on('error', (e)=>{     // Request error like internet conn etc...
+			console.log(colors.red('Please reconnect to the internet...'));
 		});
 	}, frequency);
 	
