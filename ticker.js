@@ -13,7 +13,6 @@ try{
 	const url = "https://api.wazirx.com/api/v2/tickers";   // API URL
 	var prev=0;
 	var totalChange;
-	var now = new Date();
 	var thresh_check;
 	
 	
@@ -55,13 +54,12 @@ try{
 	
 	// Log Info into console before getting data.
 	
-	console.log("\n\n" + now.toTimeString().grey);
 	console.log(colors.green("\n### This program shows you real time updates of the CRYPTO-TICKER you input.\n### To quit press CTRL + C"));
 	console.log(colors.green("### Mention frequency(ms) after ticker or default (4sec) will be set"));
 	console.log(colors.green("### Made by Kautilya .K ")+"[https://kautilyak.github.io]");
 	console.log("\nGetting Data....".inverse);
 	var requestLoop = setInterval(()=>{
-		
+		var now = new Date();
 		var body = '';
 		var request = https.get(url, (response) => {
 			response.on('data', (chunk) => {
