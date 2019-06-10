@@ -106,6 +106,8 @@ try{
 					var ticker_name = body[ticker]['name'];
 					var last_buy = body[ticker]['last'];
 					var open = body[ticker]['open'];
+					var high = body[ticker]['high'];
+					var low = body[ticker]['low'];
 					totalChange = ((last_buy-open)/open)*100;
 					totalChange = totalChange.toFixed(2);
 					
@@ -205,11 +207,11 @@ try{
 					
 					
 					if(totalChange > 0) {
-						console.log(`Daily change : ${colors.grey(open)} - ${colors.grey(last_buy)} ( ${colors.green(totalChange)} %)`);
+						console.log(`Daily change : ${colors.grey(low)} - ${colors.grey(high)} ( ${colors.green(totalChange)} %)`);
 					} else if (totalChange < 0){
-						console.log(`Daily change : ${colors.grey(open)} - ${colors.grey(last_buy)} ( ${colors.red(totalChange)} %)`);
+						console.log(`Daily change : ${colors.grey(low)} - ${colors.grey(high)} ( ${colors.red(totalChange)} %)`);
 					} else {
-						console.log(`Daily change : ${colors.grey(open)} - ${colors.grey(last_buy)} (${totalChange}%)`);
+						console.log(`Daily change : ${colors.grey(low)} - ${colors.grey(high)} (${totalChange}%)`);
 					}
 					
 					
