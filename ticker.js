@@ -10,11 +10,16 @@ try{
 	var email = argv['e'];
 	var notify = argv['n'];
 	var help = argv['h'];
+	var change_holder = argv['c'];
 	const url = "https://api.wazirx.com/api/v2/tickers";   // API URL
 	var prev=0;
 	var totalChange;
 	var thresh_check;
-	
+	var change_holder = 0;
+	var changeIsSet = false;
+	var changeIsTriggered = false;
+	var price_holder = null;
+	var startPriceSet = false;
 	
 	//Nodemailer
 
@@ -25,12 +30,22 @@ try{
 		pass: 'ipcxobaivndjfnld'
 	  }
 	});
-
-	var mailOptions = {
+	
+	
+	// For price notification
+	var mailOptionsForPrice = {
 	  from: 'Crypto Ticker <ticker@nodemailer.com>',
 	  to: email,
 	  subject: `${ticker.toUpperCase()} Price Alert!`,
 	  text: `The price has reached ${notify}. To view more please check exchange.`
+	};
+	
+	//For change Notification
+	var mailOptionsForChange = {
+	  from: 'Crypto Ticker <ticker@nodemailer.com>',
+	  to: email,
+	  subject: `${ticker.toUpperCase()} Change Alert!`,
+	  text: `The market changed ${change_holder} %. To view more please check exchange.`
 	};
 
 	
@@ -45,6 +60,26 @@ try{
 			perc = ((second-first)/second)*100;
 		}
 		return perc.toFixed(2) + ' %';
+	}
+	
+	//Function to check change if change is mentioned
+	
+	function checkChange(first_val, last_val) {
+		var p;
+		if(last_val > first_val) {
+			
+			//Market change is positive
+			p = ((last_val-first_val)/last_val)*100;
+			p = p.toFixed(2);
+			
+		} else if(first_val > last_val) {
+			
+			// Market change is negative
+			p = ((first_val-last_val)/first_val)*100;
+			p = -p.toFixed(2);
+		}
+		
+		return p;
 	}
 	
 	
@@ -75,18 +110,59 @@ try{
 					totalChange = ((last_buy-open)/open)*100;
 					totalChange = totalChange.toFixed(2);
 					
+					//If change is mentioned 
+					if(change_holder != null) {
+						changeIsSet = true;
+					}
 					
+					//Check if base price is set 
+					if(startPriceSet == false) {
+						price_holder = last_buy;
+						startPriceSet = true;
+					}
+					
+					if(changeIsSet == true && changeIsTriggered == false && startPriceSet == true) {
+						var pr = checkChange(price_holder, last_buy);
+						if(pr>0 && pr>= change_holder) {
+							
+							//Send mail
+							transporter.sendMail(mailOptionsForChange, function(error, info){
+							  if (error) {
+								console.log(error);
+							  } else {
+								console.log(colors.green('Market Price changed: '+ pr + ' %   ' + info.response));
+								changeIsTriggered = true;
+							  }
+							});
+							
+						} else if(pr<0 && pr<= -change_holder) {
+						
+							//Send mail
+							transporter.sendMail(mailOptionsForChange, function(error, info){
+							  if (error) {
+								console.log(error);
+							  } else {
+								console.log(colors.green('Market Price changed: '+ pr + ' %   ' + info.response));
+								changeIsTriggered = true;
+							  }
+							});
+						}
+					}
+					
+					
+					
+					//ELSE
 					// MAIL CHECK
 					if(thresh_check) {
 						if(thresh_check > 0) {
 							if(notify <= last_buy){
 								
 								//Send mail
-								transporter.sendMail(mailOptions, function(error, info){
+								transporter.sendMail(mailOptionsForPrice, function(error, info){
 								  if (error) {
 									console.log(error);
 								  } else {
-									console.log(colors.green('Email sent: ' + info.response));
+									console.log(colors.green('Threshold Price Reached: '+ notify + ' ' + info.response));
 									notify = null;
 								  }
 								});
@@ -96,11 +172,11 @@ try{
 							if(notify >= last_buy) {
 								
 								//Send mail
-								transporter.sendMail(mailOptions, function(error, info){
+								transporter.sendMail(mailOptionsForPrice, function(error, info){
 								  if (error) {
 									console.log(error);
 								  } else {
-									console.log(colors.green('Email sent: ' + info.response));
+									console.log(colors.green('Threshold Price Reached: '+ notify + ' ' + info.response));
 									notify = null;
 								  }
 								});
@@ -121,20 +197,20 @@ try{
 					
 					
 					if(totalChange > 0) {
-						console.log(`Daily change : ${colors.green(totalChange) + "%"}`);
+						console.log(`Daily change : ${colors.grey(open)} - ${colors.grey(last_buy)} ( ${colors.green(totalChange)} %)`);
 					} else if (totalChange < 0){
-						console.log(`Daily change : ${colors.red(totalChange) + "%"}`);
+						console.log(`Daily change : ${colors.grey(open)} - ${colors.grey(last_buy)} ( ${colors.red(totalChange)} %)`);
 					} else {
-						console.log("Daily Change : " + totalChange);
+						console.log(`Daily change : ${colors.grey(open)} - ${colors.grey(last_buy)} (${totalChange}%)`);
 					}
 					
 					
 					if(prev != last_buy) {
 						var perc = percChange(prev, last_buy);  //Find the percentage change
 						if(prev < last_buy) {
-							console.log(`${colors.inverse(ticker_name)} ${colors.green(last_buy.bold +" "+ perc.inverse)}   ${now.toTimeString().grey}`);
+							console.log(`${colors.inverse(ticker_name)} ${colors.green(last_buy.bold +" "+ perc.inverse)}             ${now.toTimeString().grey}`);
 						} else if(prev > last_buy){
-							console.log(`${colors.inverse(ticker_name)} ${colors.red(last_buy  +" "+  perc.inverse)}   ${now.toTimeString().grey}`);
+							console.log(`${colors.inverse(ticker_name)} ${colors.red(last_buy  +" "+  perc.inverse)}             ${now.toTimeString().grey}`);
 						}
 						
 						prev = last_buy;
@@ -142,6 +218,7 @@ try{
 					} else {
 					console.log(`${colors.inverse(ticker_name)} ${colors.bold(last_buy)}            ${now.toTimeString().grey}`);
 					}
+					
 				} else {
 					clearInterval(requestLoop);     //Exit the loop
 					var error = new Error("Error: Invalid Ticker Provided");
