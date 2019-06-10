@@ -15,7 +15,7 @@
 
 - And the commandline to use the program is:
 
-<code> node ticker.js -s [SYMBOL] -t [INTERVAL] -e [EMAIL] -n [THRESHOLD] </code>
+<code> node ticker.js -s [SYMBOL] -t [INTERVAL] -e [EMAIL] -n [THRESHOLD] -c [CHANGE] </code>
 
 
 # Breakdown
@@ -24,6 +24,10 @@
 - t : Set the frequency between refresh data (optional)
 - e : Email to notify when threshold price hits (optional)
 - n : Threshold price (optional)
+- c : % Change in the market (Optional)
+
+
+<i>Setting both -n and -c will activate both change and price alerts. Make sure the -e [EMAIL] is set along with them</i>
 
 # NOTES
 
