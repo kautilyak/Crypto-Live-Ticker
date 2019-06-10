@@ -15,7 +15,6 @@ try{
 	var prev=0;
 	var totalChange;
 	var thresh_check;
-	var change_holder = 0;
 	var changeIsSet = false;
 	var changeIsTriggered = false;
 	var price_holder = null;
@@ -112,6 +111,11 @@ try{
 					
 					//If change is mentioned 
 					if(change_holder != null) {
+						if( email == null) {
+							clearInterval(requestLoop);     //Exit the loop
+							var err = new Error('Email not set!');
+							console.log(err.message);
+						}
 						changeIsSet = true;
 					}
 					
@@ -185,8 +189,12 @@ try{
 						}
 					}
 					
-					
-					if(notify > last_buy) {
+					// Thresh Check
+					if(notify != null && email == null) {
+						clearInterval(requestLoop);     //Exit the loop
+						var err = new Error('Email not set!');
+						console.log(err.message);
+					} else if(notify > last_buy) {
 						thresh_check = 1;
 					} else {
 						thresh_check = -1;
