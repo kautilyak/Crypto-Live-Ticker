@@ -15,12 +15,12 @@
 
 - And the commandline to use the program is:
 
-<code> node ticker.js -s [SYMBOL] -t [INTERVAL] -e [EMAIL] -n [THRESHOLD] -c [CHANGE] </code>
+<code> node ticker.js [SYMBOL] -t [INTERVAL] -e [EMAIL] -n [THRESHOLD] -c [CHANGE] </code>
 
 
 # Breakdown
 
-- s : Symbol to track , Example - trxusdt , trxbtc, trxinr etc..
+- [SYMBOL] : Symbol to track , Example - trxusdt , trxbtc, trxinr etc..
 - t : Set the frequency between refresh data (optional)
 - e : Email to notify when threshold price hits (optional)
 - n : Threshold price (optional)
