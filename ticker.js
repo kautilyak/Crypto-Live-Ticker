@@ -5,7 +5,7 @@ var argv = require('minimist')(process.argv.slice(2));
 
 
 try{
-	var ticker = argv['s'].toLowerCase();
+	var ticker = argv['_'][0].toLowerCase();
 	var frequency = argv['t']; 
 	var email = argv['e'];
 	var notify = argv['n'];
