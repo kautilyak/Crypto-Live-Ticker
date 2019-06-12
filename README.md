@@ -1,5 +1,5 @@
 # Crypto-Live-Ticker
- A Node.Js program which helps you monitor any crypto market live. Any crypto market under USDT and INR base can be monitored.
+ A Node.Js program which helps you monitor any crypto market live. Any crypto market under USDT,INR and BTC base can be monitored.
 
 # Pre-requisites
 
