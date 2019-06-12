@@ -34,3 +34,4 @@
 I've made this for myself as the website is not that responsive to frequent updates and as a day trader i found this very inconvinient in responding quickly in a volatile market. This ticker helped me notice the change in price and volume and thus respond accorningly without any delay. 
 
 - More functionality coming soon.
+- Program uses WazirX API
