@@ -17,7 +17,7 @@ try{
 	var thresh_check;
 	var changeIsSet = false;
 	var changeIsTriggered = false;
-	var price_holder = null;
+	var start_start_price_holder = null;
 	var startPriceSet = false;
 	
 	//Nodemailer
@@ -123,12 +123,12 @@ try{
 					
 					//Check if base price is set 
 					if(startPriceSet == false) {
-						price_holder = last_buy;
+						start_price_holder = last_buy;
 						startPriceSet = true;
 					}
 					
 					if(changeIsSet == true && changeIsTriggered == false && startPriceSet == true) {
-						var pr = checkChange(price_holder, last_buy);
+						var pr = checkChange(start_start_price_holder, last_buy);
 						if(pr>0 && pr>= change_holder) {
 							
 							//Send mail
@@ -137,7 +137,10 @@ try{
 								console.log(error);
 							  } else {
 								console.log(colors.green('Market Price changed: '+ pr + ' %   ' + info.response));
-								changeIsTriggered = true;
+								//changeIsTriggered = true;   -- To use a switch , else to loop below
+								start_start_price_holder = null;
+								startPriceSet = false;
+								
 							  }
 							});
 							
@@ -149,7 +152,9 @@ try{
 								console.log(error);
 							  } else {
 								console.log(colors.green('Market Price changed: '+ pr + ' %   ' + info.response));
-								changeIsTriggered = true;
+								//changeIsTriggered = true;  -- To use a switch , else to loop below
+								start_start_price_holder = null;
+								startPriceSet = false;
 							  }
 							});
 						}
