@@ -23,8 +23,8 @@
 - [SYMBOL] : Symbol to track , Example - trxusdt , trxbtc, trxinr etc..
 - t : Set the frequency between refresh data (optional)
 - e : Email to notify when threshold price hits (optional)
-- n : Threshold price (optional)
-- c : % Change in the market (Optional)
+- n : Notify email once it hits X threshold price (optional) (email required)
+- c : Notify email every time  X% Change in the market (Optional) (email required)
 
 
 <i>Setting both -n and -c will activate both change and price alerts. Make sure the -e [EMAIL] is set along with them</i>
