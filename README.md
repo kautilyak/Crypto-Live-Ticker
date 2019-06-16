@@ -27,8 +27,8 @@
 - c : Notify email every time  X% Change in the market (Optional) (email required)
 
 
-<i>Setting both -n and -c will activate both change and price alerts. Make sure the -e [EMAIL] is set along with them
-You can now set multiple emails by using ',' in between each email!</i>
+<i>Setting both -n and -c will activate both change and price alerts. Make sure the -e [EMAIL] is set along with them</i>
+<i> You can now set multiple emails by using ',' in between each email!</i>
 
 # NOTES
 
