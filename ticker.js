@@ -8,7 +8,8 @@ try{
 	var pr;
 	var ticker = argv['_'][0].toLowerCase();
 	var frequency = argv['t']; 
-	var email = argv['e'];
+	var email = argv['e'].split(',');
+	email = email.join(', ');
 	var notify = argv['n'];
 	var help = argv['h'];
 	var change_holder = argv['c'];
