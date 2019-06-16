@@ -1,6 +1,7 @@
 const https = require('https');
 const colors = require('colors');
 const nodemailer = require('nodemailer');
+const lineByLine = require('line-by-line');
 var argv = require('minimist')(process.argv.slice(2));
 
 
@@ -8,8 +9,7 @@ try{
 	var pr;
 	var ticker = argv['_'][0].toLowerCase();
 	var frequency = argv['t']; 
-	var email = argv['e'].split(',');
-	email = email.join(', ');
+	var email = argv['e'];
 	var notify = argv['n'];
 	var help = argv['h'];
 	var change_holder = argv['c'];
@@ -21,6 +21,18 @@ try{
 	var changeIsTriggered = false;
 	var price_holder = null;
 	var startPriceSet = false;
+	var mailArray = new Array();
+	
+	if(email == true) {
+		var lr = new lineByLine('mail.txt');
+		lr.on('line', (data) => {
+			mailArray.push(data);
+		}).on('end', ()=> {
+			mailArray = mailArray.join(', ');
+		});
+		
+		
+	}
 	
 	//Nodemailer
 
@@ -36,7 +48,7 @@ try{
 	// For price notification
 	var mailOptionsForPrice = {
 	  from: 'Crypto Ticker <ticker@nodemailer.com>',
-	  to: email,
+	  to: mailArray,
 	  subject: `${ticker.toUpperCase()} Price Alert!`,
 	  text: `The price has reached ${notify}. To view more please check exchange.`
 	};
@@ -44,7 +56,7 @@ try{
 	//For change Notification
 	var mailOptionsForChange = {
 	  from: 'Crypto Ticker <ticker@nodemailer.com>',
-	  to: email,
+	  to: mailArray,
 	  subject: `${ticker.toUpperCase()} Change Alert!`,
 	  text: `The market changed ${change_holder} %. To view more please check exchange.`
 	};
@@ -115,11 +127,6 @@ try{
 					
 					//If change is mentioned 
 					if(change_holder != null) {
-						if( email == null) {
-							clearInterval(requestLoop);     //Exit the loop
-							var err = new Error('Email not set!');
-							console.log(err.message);
-						}
 						changeIsSet = true;
 					}
 					
@@ -199,11 +206,7 @@ try{
 					}
 					
 					// Thresh Check
-					if(notify != null && email == null) {
-						clearInterval(requestLoop);     //Exit the loop
-						var err = new Error('Email not set!');
-						console.log(err.message);
-					} else if(notify > last_buy) {
+					if(notify != null && notify > last_buy) {
 						thresh_check = 1;
 					} else {
 						thresh_check = -1;
