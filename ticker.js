@@ -50,7 +50,7 @@ try{
 	  from: 'Crypto Ticker <ticker@nodemailer.com>',
 	  to: mailArray,
 	  subject: `${ticker.toUpperCase()} Price Alert!`,
-	  text: `The price has reached ${notify}. To view more please check exchange.`
+	  text: `The price has reached ${notify}. To view more please check exchange.   Project website: https://github.com/kautilyak/Crypto-Live-Ticker`
 	};
 	
 	//For change Notification
@@ -58,7 +58,7 @@ try{
 	  from: 'Crypto Ticker <ticker@nodemailer.com>',
 	  to: mailArray,
 	  subject: `${ticker.toUpperCase()} Change Alert!`,
-	  text: `The market changed ${change_holder} %. To view more please check exchange.`
+	  text: `The market changed ${change_holder} %. To view more please check exchange.  Project website: https://github.com/kautilyak/Crypto-Live-Ticker`
 	};
 
 	
