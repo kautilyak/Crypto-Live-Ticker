@@ -53,13 +53,23 @@ try{
 	  text: `The price has reached ${notify}. To view more please check exchange.   Project website: https://github.com/kautilyak/Crypto-Live-Ticker`
 	};
 	
-	//For change Notification
-	var mailOptionsForChange = {
+	
+	//For change increase Notification 
+	var mailOptionsForChangeIncrease = {
 	  from: 'Crypto Ticker <ticker@nodemailer.com>',
 	  to: mailArray,
 	  subject: `${ticker.toUpperCase()} Change Alert!`,
-	  text: `The market changed ${change_holder} %. To view more please check exchange.  Project website: https://github.com/kautilyak/Crypto-Live-Ticker`
+	  text: `The market increased ${change_holder} %. To view more please check exchange.  Project website: https://github.com/kautilyak/Crypto-Live-Ticker`
 	};
+	
+	//For change decrease Notification
+	var mailOptionsForChangeDecrease = {
+	  from: 'Crypto Ticker <ticker@nodemailer.com>',
+	  to: mailArray,
+	  subject: `${ticker.toUpperCase()} Change Alert!`,
+	  text: `The market decreased ${change_holder} %. To view more please check exchange.  Project website: https://github.com/kautilyak/Crypto-Live-Ticker`
+	};
+
 
 	
 	
@@ -136,31 +146,28 @@ try{
 						startPriceSet = true;
 					}
 					
-					if(changeIsSet == true && changeIsTriggered == false && startPriceSet == true) {
+					if(changeIsSet == true && startPriceSet == true) {
 						pr = checkChange(price_holder, last_buy);
 						if(pr>0 && pr>= change_holder) {
-							
 							//Send mail
-							transporter.sendMail(mailOptionsForChange, function(error, info){
+							transporter.sendMail(mailOptionsForChangeIncrease, function(error, info){
 							  if (error) {
 								console.log(error);
 							  } else {
-								console.log(colors.green('Market Price changed: '+ pr + ' %   ' + info.response));
+								console.log(colors.green('Market Price Increased: '+ pr + ' %   ' + info.response));
 								//changeIsTriggered = true;
 								price_holder = null;
 								startPriceSet = false;
-								
-							  }
+								}
 							});
 							
 						} else if(pr<0 && pr<= -change_holder) {
-						
 							//Send mail
-							transporter.sendMail(mailOptionsForChange, function(error, info){
+							transporter.sendMail(mailOptionsForChangeDecrease, function(error, info){
 							  if (error) {
 								console.log(error);
 							  } else {
-								console.log(colors.green('Market Price changed: '+ pr + ' %   ' + info.response));
+								console.log(colors.green('Market Price Decreased: '+ pr + ' %   ' + info.response));
 								//changeIsTriggered = true;
 								price_holder = null;
 								startPriceSet = false;
